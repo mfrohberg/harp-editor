@@ -28,7 +28,9 @@ module.exports = function(editor, config) {
 		      type: "page",
 		      title: req.body.title,
 		      layout: req.body.layout,
+		      author: req.body.author,
 		      updated_at: new Date(),
+		      snippet: req.body.snippet,
 		      updated_by: req.session.user_id || "Unknown User"
 		    };
 
@@ -38,7 +40,7 @@ module.exports = function(editor, config) {
 		    slug = editor.utils.slug(req.body.slug);
 		    base = editor.utils.reduceFilePart(req.body.path);
 
-		    
+
 		    editor.metadata.updateMetaData(slug, base, data, function(err, result) {
 		      editor.files.writeFileBySlug(slug, base, config.defaultFileType, req.body.content, function(fileContents) {
 		        res.redirect("/admin/content");
@@ -51,10 +53,13 @@ module.exports = function(editor, config) {
 		  var content, data, ext, base;
 
 		  data = {
-		    title: req.body.title,
-		    layout: req.body.layout,
-		    updated_at: new Date(),
-		    updated_by: req.session.user_id || "Unknown User"
+		    type: "page",
+		      title: req.body.title,
+		      layout: req.body.layout,
+		      author: req.body.author,
+		      updated_at: new Date(),
+		      snippet: req.body.snippet,
+		      updated_by: req.session.user_id || "Unknown User"
 		  };
 
 		  data.layout = (data.layout == "true") ? true : data.layout;
@@ -87,11 +92,11 @@ module.exports = function(editor, config) {
 		          });
 		        });
 		      } else {
-		        res.redirect("/admin/content"); 
+		        res.redirect("/admin/content");
 		      }
 		    });
 		  });
-		}, 
+		},
 
 		new: function(req, res) {
 		  editor.layouts.fetchLayouts(function(err, layouts){
@@ -106,7 +111,7 @@ module.exports = function(editor, config) {
 		    var ext = getExtension(req.query.path);
 		    if (ext == "md") {
 		      fileContents = marked(fileContents);
-		    } 
+		    }
 		    editor.metadata.getMetaData(editor.utils.normaizeFilePartExt(req.query.path), base, function(err, metaData){
 		      editor.layouts.fetchLayouts(function(err, layouts) {
 		        var layoutSelect = editor.layouts.layoutsForSelect(editor.layouts.layoutsForScope(layouts, req.query.path));

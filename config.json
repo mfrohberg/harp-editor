@@ -1,5 +1,5 @@
 {
-	"port" : 3000,
-	"boilerplate": "/Users/robellis/projects/harp/baseline-git",
-	"defaultFileType": "md"
+	"port" : 29770,
+	"boilerplate": "/home/mfrohberg/src/commons/_sites/school-program",
+	"defaultFileType": "jade"
 }
